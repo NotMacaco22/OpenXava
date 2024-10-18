@@ -1,0 +1,36 @@
+/*C1*/SET SCHEMA SYSTEM_LOBS
+INSERT INTO BLOCKS VALUES(0,2147483647,0)
+COMMIT
+/*C2*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C3*/SET SCHEMA PUBLIC
+create table Bill (oid varchar(32) not null, date date, number integer, observations varchar(255), year integer, client_number integer not null, primary key (oid))
+create table Bill_details (Bill_oid varchar(32) not null, product_number integer, quantity integer not null)
+create table Category (oid varchar(32) not null, description varchar(50), primary key (oid))
+create table Client (number integer not null, city varchar(20), postalCode integer, publicStreet varchar(30), state varchar(30), name varchar(50), primary key (number))
+create table IMAGES (ID varchar(32) not null, GALLERY varchar(32), image varbinary(16777216), primary key (ID))
+create table OXDISCUSSIONCOMMENTS (id varchar(32) not null, comment clob(16777216), discussionId varchar(32), time timestamp, userName varchar(30), primary key (id))
+create table Product (number integer not null, description varchar(50), observations varchar(255), photos varchar(32), precio numeric(19,2), category_oid varchar(32), primary key (number))
+create index IDXbhlx4vunn24ym1tbrlgq8g30m on OXDISCUSSIONCOMMENTS (discussionId)
+alter table Bill add constraint FKc344lnbc2e7yiqa7t155lar1x foreign key (client_number) references Client
+alter table Bill_details add constraint FKoctka79g3ey3cdjtvxg7uy646 foreign key (product_number) references Product
+alter table Bill_details add constraint FKbnor8j2l3kyhs06c2s32l4pgb foreign key (Bill_oid) references Bill
+alter table Product add constraint FKh3iamu1otf3neq0kuujugsb0l foreign key (category_oid) references Category
+INSERT INTO CATEGORY VALUES('ff808181929d5d3801929d5d8c560000','Computadora')
+COMMIT
+INSERT INTO CLIENT VALUES(1,'Managua',123,'Las Brisas','Managua','Cesar Silva')
+COMMIT
+INSERT INTO PRODUCT VALUES(1,'Computadora Fea','tiene todo bien :D','9D5E9DC27F000101000000003FB29546',1000.00,'ff808181929d5d3801929d5d8c560000')
+COMMIT
+INSERT INTO BILL VALUES('ff808181929d5d3801929d5f61c20001','2024-10-17',1,'Compro una computadora ',2024,1)
+INSERT INTO BILL_DETAILS VALUES('ff808181929d5d3801929d5f61c20001',1,1)
+COMMIT
+INSERT INTO CLIENT VALUES(2,'Masaya',999,'nose','Masaya','Duran')
+COMMIT
+INSERT INTO CATEGORY VALUES('ff808181929d5d3801929d724c8c0002','Celulares')
+COMMIT
+INSERT INTO PRODUCT VALUES(54,'Celular S10','un celular tuani','9D7346EF7F00010100000000EA0FB3E4',1555555.65,'ff808181929d5d3801929d724c8c0002')
+COMMIT
+INSERT INTO BILL VALUES('ff808181929d5d3801929d7434e10003','2024-10-17',2,'duran compro un s10 cool',2024,2)
+INSERT INTO BILL_DETAILS VALUES('ff808181929d5d3801929d7434e10003',54,1)
+COMMIT
